@@ -2,25 +2,25 @@
 
 namespace App\Domain\User\Service;
 
-use App\Domain\User\Repository\UserCreatorRepository;
+use App\Domain\User\Repository\CoordinatesAddRepo;
 use App\Exception\ValidationException;
 
 /**
  * Service.
  */
-final class UserCreator
+final class CoordinatesAdd
 {
     /**
-     * @var UserCreatorRepository
+     * @var CoordinatesAddRepo
      */
     private $repository;
 
     /**
      * The constructor.
      *
-     * @param UserCreatorRepository $repository The repository
+     * @param CoordinatesAddRepo $repository The repository
      */
-    public function __construct(UserCreatorRepository $repository)
+    public function __construct(CoordinatesAddRepo $repository)
     {
         $this->repository = $repository;
     }
@@ -38,12 +38,12 @@ final class UserCreator
         $this->validateNewUser($data);
 
         // Insert user
-        $userId = $this->repository->insertUser($data);
+        $coo = $this->repository->insertCoo($data);
 
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
 
-        return $userId;
+        return $coo;
     }
 
     /**
@@ -61,14 +61,12 @@ final class UserCreator
 
         // Here you can also use your preferred validation library
 
-        if (empty($data['username'])) {
-            $errors['username'] = 'Input required';
+        if (empty($data['city'])) {
+            $errors['city'] = 'Input required';
         }
 
-        if (empty($data['email'])) {
-            $errors['email'] = 'Input required';
-        } elseif (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
-            $errors['email'] = 'Invalid email address';
+        if (empty($data['country'])) {
+            $errors['country'] = 'Input required';
         }
 
         if ($errors) {

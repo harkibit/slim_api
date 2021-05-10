@@ -2,17 +2,18 @@
 
 namespace App\Action;
 
-use App\Domain\User\Service\UserCreator;
+use App\Domain\User\Service\CoordinatesAdd;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class UserCreateAction
+final class CoordinatesCreateAction
 {
     private $userCreator;
+    private $coo;
 
-    public function __construct(UserCreator $userCreator)
+    public function __construct(CoordinatesAdd $coo)
     {
-        $this->userCreator = $userCreator;
+        $this->coo = $coo;
     }
 
     public function __invoke(
@@ -23,11 +24,11 @@ final class UserCreateAction
         $data = (array)$request->getParsedBody();
 
         // Invoke the Domain with inputs and retain the result
-        $userId = $this->userCreator->createUser($data);
+        $coo = $this->coo->createUser($data);
 
         // Transform the result into the JSON representation
         $result = [
-            'user_id' => $userId
+            'City ID' => $coo,
         ];
 
         // Build the HTTP response

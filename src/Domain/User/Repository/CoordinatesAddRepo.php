@@ -7,7 +7,7 @@ use PDO;
 /**
  * Repository.
  */
-class UserCreatorRepository
+class CoordinatesAddRepo
 {
     /**
      * @var PDO The database connection
@@ -31,20 +31,20 @@ class UserCreatorRepository
      *
      * @return int The new ID
      */
-    public function insertUser(array $user): int
+    public function insertCoo(array $coo): int
     {
         $row = [
-            'username' => $user['username'],
-            'first_name' => $user['first_name'],
-            'last_name' => $user['last_name'],
-            'email' => $user['email'],
+            'city' => $coo['city'],
+            'country' => $coo['country'],
+            'longitude' => $coo['longitude'],
+            'latitude' => $coo['latitude'],
         ];
 
-        $sql = "INSERT INTO users SET 
-                username=:username, 
-                first_name=:first_name, 
-                last_name=:last_name, 
-                email=:email;";
+        $sql = "INSERT INTO coordinates SET 
+                city=:city, 
+                country=:country, 
+                longitude=:longitude, 
+                latitude=:latitude;";
 
         $this->connection->prepare($sql)->execute($row);
 
